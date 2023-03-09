@@ -1,0 +1,43 @@
+package se.ifmo.lab05.commands;
+
+import se.ifmo.lab05.managers.CollectionManager;
+import se.ifmo.lab05.parsers.FlatParser;
+import se.ifmo.lab05.exceptions.InvalidArgsException;
+import se.ifmo.lab05.models.Flat;
+import se.ifmo.lab05.utils.IOProvider;
+
+public class UpdateCommand extends Command {
+    public UpdateCommand(IOProvider provider, CollectionManager collection) {
+        super("update {id} {element}", "обновить значение элемента коллекции, id которого равен заданному",
+                provider, collection);
+    }
+
+    @Override
+    public void validateArgs(String[] args, int length) throws InvalidArgsException {
+        try {
+            super.validateArgs(args, length);
+            long id = Long.parseLong(args[0]);
+        } catch (IndexOutOfBoundsException | NumberFormatException e) {
+            throw new InvalidArgsException();
+        }
+    }
+
+    @Override
+    public void execute(String[] args) throws InvalidArgsException {
+        validateArgs(args, 1);
+
+        long flatId = Long.parseLong(args[0]);
+        Flat flat = collection.get(flatId);
+        if (flat == null) {
+            provider.getPrinter().print("Flat with specified ID doesn't exist.");
+            return;
+        }
+        String line = "-".repeat(60);
+        provider.getPrinter().print("Chosen Flat:");
+        provider.getPrinter().printf("%s\n%s\n%s\n", line, flat, line);
+        FlatParser argParser = new FlatParser(provider.getScanner(), provider.getPrinter());
+        Flat newFlat = argParser.parseFlat();
+        collection.update(flatId, newFlat);
+        provider.getPrinter().printf("Flat (ID %s) updated successfully.\n", flatId);
+    }
+}
