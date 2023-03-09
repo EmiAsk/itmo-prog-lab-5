@@ -15,9 +15,9 @@ public class CommandParser {
         this.commandManager = commandManager;
     }
 
-    public void run(IOProvider IOProvider) {
-        Scanner scanner = IOProvider.getScanner();
-        Printer printer = IOProvider.getPrinter();
+    public void run(IOProvider provider) {
+        Scanner scanner = provider.getScanner();
+        Printer printer = provider.getPrinter();
 
         while (true) {
             try {
@@ -30,9 +30,9 @@ public class CommandParser {
                     printer.print("Invalid command");
                 }
             } catch (ExitException e) {
-                printer.print("");
+                printer.print("\nExited\n");
             } catch (InvalidArgsException e) {
-                printer.print("Invalid arguments. Use command \"help\" to find them.");
+                printer.print("Invalid arguments. Use command \"help\" to find correct ones.");
             } catch (NoSuchElementException e) {
                 printer.print("\nEOF");
                 break;

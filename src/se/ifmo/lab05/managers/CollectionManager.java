@@ -76,7 +76,7 @@ public class CollectionManager {
 
     public String getDescription() {
         return String.format("Тип: %s\nДата инициализации: %s\nКол-во элементов: %s",
-                CollectionManager.class.getName(), createdAt, collection.size());
+                collection.getClass().getName(), createdAt, collection.size());
     }
 
     public String dump() {
