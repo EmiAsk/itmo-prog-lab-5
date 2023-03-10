@@ -37,7 +37,7 @@ public class CommandParser {
                 printer.print("\nEOF");
                 break;
             } catch (Exception e) {
-                printer.print(e.toString());
+                printer.print("Error occurred: " + e);
             }
         }
     }

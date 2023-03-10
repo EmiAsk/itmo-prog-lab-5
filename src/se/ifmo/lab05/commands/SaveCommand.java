@@ -16,7 +16,11 @@ public class SaveCommand extends Command {
     @Override
     public void execute(String[] args) throws InvalidArgsException {
         validateArgs(args, 0);
-        try (FileWriter fileWriter = new FileWriter(System.getenv("FILENAME"))){
+        if (System.getenv("FILENAME") == null) {
+            provider.getPrinter().print("System variable FILENAME is NULL.");
+            return;
+        }
+        try (FileWriter fileWriter = new FileWriter(System.getenv("FILENAME"))) {
             fileWriter.write(collection.dump());
             fileWriter.flush();
             provider.getPrinter().printf("Collection dumped to file (%s) successfully.\n", System.getenv("FILENAME"));
@@ -24,8 +28,6 @@ public class SaveCommand extends Command {
             provider.getPrinter().print("File not found or access denied (write)");
         } catch (IOException e) {
             provider.getPrinter().print("Something went wrong while writing.");
-        } catch (NullPointerException e) {
-            provider.getPrinter().print("System variable FILENAME is NULL.");
         }
     }
 }
