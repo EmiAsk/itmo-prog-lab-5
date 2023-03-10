@@ -48,8 +48,12 @@ public class CollectionManager {
         return collection;
     }
 
-    public void push(Flat element) {
-        collection.push(element);
+    public boolean push(Flat element) {
+        if (element.validate() && get(element.getId()) != null) {
+            collection.push(element);
+            return true;
+        }
+        return false;
     }
 
     public void update(long id, Flat newFlat) {
@@ -57,8 +61,8 @@ public class CollectionManager {
         flat.update(newFlat);
     }
 
-    public void remove(long id) {
-        collection.removeElement(get(id));
+    public boolean remove(long id) {
+        return collection.removeElement(get(id));
     }
 
     public void clear() {
