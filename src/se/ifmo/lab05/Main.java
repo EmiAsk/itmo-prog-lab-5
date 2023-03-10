@@ -23,13 +23,14 @@ public class Main {
         }
         try {
             CollectionManager collection = CollectionManager.fromFile(fileName);
+            printer.print("Collection loaded successfully.");
             CommandManager commandManager = new CommandManager(IOProvider, collection);
             CommandParser commandParser = new CommandParser(commandManager);
             commandParser.run(IOProvider);
         } catch (JsonParseException e) {
             printer.print("Invalid JSON format or invalid input data.");
         } catch (FileNotFoundException e) {
-            printer.print("File not found");
+            printer.print("File not found or access denied (read)");
         }
     }
 }

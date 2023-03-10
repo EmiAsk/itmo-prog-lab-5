@@ -24,7 +24,7 @@ public class CommandParser {
                 printer.printf(">> ");
                 String line = scanner.nextLine();
                 String[] splitLine = line.strip().split("\s+");
-                String commandName = splitLine[0];
+                String commandName = splitLine[0].toLowerCase();
                 String[] args = Arrays.copyOfRange(splitLine, 1, splitLine.length);
                 if (!commandManager.execute(commandName, args)) {
                     printer.print("Invalid command");

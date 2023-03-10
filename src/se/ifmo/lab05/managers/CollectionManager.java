@@ -42,9 +42,7 @@ public class CollectionManager {
     public static CollectionManager fromFile(String fileName) throws FileNotFoundException {
         CollectionManager collection = new CollectionManager();
         Flat[] flats = parseFile(new FileReader(fileName));
-        for (Flat flat : flats) {
-            if (flat.validate()) collection.push(flat);
-        }
+        for (Flat flat : flats) collection.push(flat);
         return collection;
     }
 
