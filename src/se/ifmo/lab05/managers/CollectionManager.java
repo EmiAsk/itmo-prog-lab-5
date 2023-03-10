@@ -49,7 +49,7 @@ public class CollectionManager {
     }
 
     public boolean push(Flat element) {
-        if (element.validate() && get(element.getId()) != null) {
+        if (element.validate() && get(element.getId()) == null) {
             collection.push(element);
             return true;
         }
