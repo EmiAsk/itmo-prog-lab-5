@@ -18,11 +18,14 @@ public class FilterNameCommand extends Command {
     public void execute(String[] args) throws InvalidArgsException {
         validateArgs(args, 1);
         String name = args[0];
-        List<Flat> filteredCollection = collection.filterByName(name);
+        List<Flat> flats = collection.getCollection()
+                .stream()
+                .filter(flat -> flat.getName().toLowerCase().startsWith(name.toLowerCase()))
+                .toList();
         provider.getPrinter().print("Collection filtered by name:");
         String line = "-".repeat(60);
         provider.getPrinter().print(line);
-        for (Flat flat : filteredCollection) {
+        for (Flat flat : flats) {
             provider.getPrinter().print(flat.toString());
             provider.getPrinter().print(line);
         }

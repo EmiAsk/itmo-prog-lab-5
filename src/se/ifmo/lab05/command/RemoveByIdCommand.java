@@ -28,7 +28,7 @@ public class RemoveByIdCommand extends Command {
             provider.getPrinter().print("Flat with specified ID doesn't exist.");
             return;
         }
-        collection.remove(flatId);
+        collection.removeById(flatId);
         provider.getPrinter().printf("Flat (ID %s) removed successfully.\n", flatId);
     }
 }

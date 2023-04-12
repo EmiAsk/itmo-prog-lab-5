@@ -14,7 +14,7 @@ public class InfoCommand extends Command {
     @Override
     public void execute(String[] args) throws InvalidArgsException {
         validateArgs(args, 0);
-        provider.getPrinter().print(collection.getDescription());
+        provider.getPrinter().print(collection.description());
     }
 
 

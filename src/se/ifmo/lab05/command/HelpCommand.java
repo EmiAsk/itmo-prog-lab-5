@@ -17,7 +17,7 @@ public class HelpCommand extends Command {
     @Override
     public void execute(String[] args) throws InvalidArgsException {
         validateArgs(args, 0);
-        String line = "-".repeat(150);
+        String line = "-".repeat(120);
         provider.getPrinter().print(line);
         for (Command command : commands.values()) {
             provider.getPrinter().print(command.getDescription());

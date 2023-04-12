@@ -4,8 +4,4 @@ public enum Transport {
     NONE,
     LITTLE,
     ENOUGH;
-
-    public static void main(String[] args) {
-
-    }
 }

@@ -2,6 +2,7 @@ package se.ifmo.lab05.command;
 
 import se.ifmo.lab05.manager.CollectionManager;
 import se.ifmo.lab05.manager.CommandManager;
+import se.ifmo.lab05.parser.CommandParser;
 import se.ifmo.lab05.util.IOProvider;
 import se.ifmo.lab05.exception.InvalidArgsException;
 
@@ -11,10 +12,11 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class ExecuteScriptCommand extends Command {
-    private final int recursionDepth;
-    public ExecuteScriptCommand(IOProvider provider, CollectionManager collection, int recursionDeth) {
+
+    private final int recDepth;
+    public ExecuteScriptCommand(IOProvider provider, CollectionManager collection, int recDepth) {
         super("execute_script {file_name}", "считать и исполнить скрипт из указанного файла", provider, collection);
-        this.recursionDepth = recursionDeth;
+        this.recDepth = recDepth;
     }
 
     @Override
@@ -22,9 +24,9 @@ public class ExecuteScriptCommand extends Command {
         validateArgs(args, 1);
         String fileName = args[0];
         try (FileReader fileReader = new FileReader(fileName)) {
-            Scanner scanner = new Scanner(fileReader);
-            IOProvider provider = new IOProvider(scanner, this.provider.getPrinter());
-            CommandManager commandParser = new CommandManager(provider, collection, recursionDepth + 1);
+            var provider = new IOProvider(new Scanner(fileReader), this.provider.getPrinter());
+            var commandManager = new CommandManager(collection, provider, recDepth + 1);
+            var commandParser = new CommandParser(commandManager, provider, recDepth + 1);
             commandParser.run();
         } catch (FileNotFoundException e) {
             provider.getPrinter().print("File not found or access denied (read).");

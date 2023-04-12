@@ -30,7 +30,6 @@ public class CollectionManager {
     }
 
 
-
     public static CollectionManager fromFile(String fileName) throws FileNotFoundException {
         CollectionManager collection = new CollectionManager(fileName);
         Flat[] flats = JsonParser.parseFile(new FileReader(fileName));
@@ -38,12 +37,10 @@ public class CollectionManager {
         return collection;
     }
 
-    public boolean push(Flat element) {
+    public void push(Flat element) {
         if (element.validate() && get(element.getId()) == null) {
             collection.push(element);
-            return true;
         }
-        return false;
     }
 
     public void update(long id, Flat newFlat) {
@@ -51,8 +48,8 @@ public class CollectionManager {
         flat.update(newFlat);
     }
 
-    public boolean remove(long id) {
-        return collection.removeElement(get(id));
+    public void removeById(long id) {
+        collection.removeElement(get(id));
     }
 
     public void clear() {
@@ -68,7 +65,7 @@ public class CollectionManager {
         return null;
     }
 
-    public String getDescription() {
+    public String description() {
         return String.format("Тип: %s\nДата инициализации: %s\nКол-во элементов: %s",
                 collection.getClass().getName(), createdAt, collection.size());
     }
@@ -82,7 +79,6 @@ public class CollectionManager {
         builder.setPrettyPrinting();
         builder.registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeSerializer());
         Gson gson = builder.create();
-        // TODO: Consider cloning collection before dump
         return gson.toJson(collection.toArray(), Flat[].class);
     }
 
@@ -114,13 +110,6 @@ public class CollectionManager {
                 .count();
         collection.removeIf(flat -> flat.getFurnish() == furnish);
         return n;
-    }
-
-    public List<Flat> filterByName(String name) {
-        return collection
-                .stream()
-                .filter(flat -> flat.getName().toLowerCase().startsWith(name.toLowerCase()))
-                .toList();
     }
 
     @Override
